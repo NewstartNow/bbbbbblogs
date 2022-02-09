@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/_fragments :: head(~{::title})">
+    <title>NJUSE | new post</title>
+</head>
+
+<body class="m-sticky-site">
+<!-- Nav bar-->
+<nav th:replace="admin/_fragments :: menu(0)"></nav>
+<div th:fragment="subbar" class="ui attached inverted pointing menu m-opacity-small">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" th:href="@{/admin/blogs/input}" class="active olive item">Add</a>
+            <a href="#" th:href="@{/admin/blogs}" class="olive item">List</a>
+        </div>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="m-container-small m-padded-tb-mid">
+    <div class="ui container">
+        <form id="blog-form" action="#" th:object="${blog}" th:action="@{/admin/blogs}" method="post" class="ui form">
+            <input type="hidden" name="published">
+            <input type="hidden" name="id" th:value="*{id}">
+            <div class=" required field">
+                <div class="ui left labeled input">
+                    <div class="ui selection compact olive basic dropdown label">
+                        <input type="hidden" value="Origin" name="flag" th:value="*{flag}">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Origin</div>
+                        <div class="menu">
+                            <div class="item" data-value="Origin">Origin</div>
+                            <div class="item" data-value="Repost">Repost</div>
+                            <div class="item" data-value="Translate">Translate</div>
+                        </div>
+                    </div>
+                    <input type="text" name="title" placeholder="Title" th:value="*{title}">
+                </div>
+            </div>
+            <!--content-->
+            <div class="field">
+                <div id="md-content" style="z-index: 1 !important;">
+                    <textarea required="required" placeholder="content" name="content" style="display: none" th:text="*{content}">
+                        Markdown
+                    </textarea>
+                </div>
+            </div>
+            <!--tags-->
+            <div class="two fields">
+                <div class="field field">
+                    <div class="ui left labeled action input">
+                        <label class="ui compact olive basic label">Category</label>
+                        <div class="ui fluid selection dropdown">
+                            <input type="hidden" name="type.id" th:value="*{type}!=null? *{type.id}">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Category</div>
+                            <div class="menu">
+                                <div th:each="type : ${types}" class="item" data-value="1" th:data-value="${type.id}" th:text="${type.name}">Error</div>
+                                <!--/*-->
+                                <div class="item" data-value="2">Log</div>
+                                <!--*/-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left labeled action input">
+                        <label class="ui compact olive basic label">Tag</label>
+                        <div class="ui fluid multiple search selection dropdown">
+                            <input type="hidden" name="tagIds" th:value="*{tagIds}">
+                            <i class="dropdown icon"></i>
+                            <div class="default text">Tag</div>
+                            <div class="menu">
+                                <div th:each="tag: ${tags}" class="item" data-value="1" th:data-value="${tag.id}" th:text="${tag.tagName}">Java</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--image-->
+            <div class="field">
+                <div class="ui left labeled input">
+                    <label class="ui olive basic label">Picture</label>
+                    <input type="text" name="headerPicture" th:value="*{headerPicture}" placeholder="Picture">
+                </div>
+            </div>
+
+            <!--short description-->
+            <div class="required field">
+                <textarea required="required" name="description" th:text="*{description}" placeholder="max 200 char" maxlength="200"></textarea>
+            </div>
+
+            <!--button-->
+            <div class="inline fields">
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="recommend" name="recommend" th:checked="*{recommend}" class="hidden">
+                        <label for="recommend">Recommend</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="repost" name="repost" th:checked="*{repost}" class="hidden">
+                        <label for="repost">Repost</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="sponsor" name="sponsor" th:checked="*{sponsor}" class="hidden">
+                        <label for="sponsor">Sponsor</label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui checkbox">
+                        <input type="checkbox" id="comment" name="comment" th:checked="*{comment}" class="hidden">
+                        <label for="comment">Comment</label>
+                    </div>
+                </div>
+            </div>
+            <!--error message-->
+            <div class="ui error message"></div>
+            <!--bottom-->
+            <div class="ui right aligned container">
+                <button type="button" class="ui button" onclick="window.history.go(-1)">Back</button>
+                <button type="button" id="save-btn" class="ui blue button">Save</button>
+                <button type="button" id="publish-btn" class="ui olive button">Publish</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Footer -->
+<main class="m-sticky-site-content"></main>
+<footer th:replace="admin/_fragments :: footer"></footer>
+
+<!-- JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+<script src="../../static/lib/editormd/editormd.min.js" th:src="@{/lib/editormd/editormd.min.js}"></script>
+<!-- customize -->
+<script>
+   var contentEditor;
+   $(function() {
+        testEditor = editormd("md-content", {
+            width   : "100%",
+            height  : 640,
+            syncScrolling : "single",
+            // path    : "../../static/lib/editormd/lib/"
+            path    : "/lib/editormd/lib/"
+        })
+   });
+
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('#sponsorButton').popup({
+        popup: $('.sponsorPopup.popup'),
+        on: 'click',
+        position: 'bottom center'
+    });
+
+    $('.ui.dropdown').dropdown({
+        on: 'hover'
+    });
+
+    $('.ui.form').form({
+        fields : {
+            title : {
+                identifier: 'title',
+                rules: [{
+                    type : 'empty',
+                    prompt: 'Please input title'
+                }]
+            },
+            content : {
+                identifier: 'content',
+                rules: [{
+                    type : 'empty',
+                    prompt: 'Please input content'
+                }]
+            },
+            typeId : {
+                identifier: 'type.id',
+                rules: [{
+                    type : 'empty',
+                    prompt: 'Please input type'
+                }]
+            },
+            description : {
+                identifier: 'description',
+                rules: [{
+                    type : 'empty',
+                    prompt: 'Please input description'
+                }]
+            }
+        }
+    });
+
+   // save
+   $('#save-btn').click(function () {
+       $('[name="published"]').val(false);
+       $('#blog-form').submit();
+   });
+
+   // publish
+   $('#publish-btn').click(function () {
+       $('[name="published"]').val(true);
+       $('#blog-form').submit();
+   });
+
+   //close notification
+   $('.message .close')
+       .on('click', function () {
+           $(this)
+               .closest('.message')
+               .transition('fade');
+       });
+
+</script>
+</body>
+</html>

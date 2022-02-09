@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
+    <!-- Semantic CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css" >
+    <!-- mark down -->
+    <link rel="stylesheet" href="../../static/lib/editormd/css/editormd.min.css" th:href="@{/lib/editormd/css/editormd.min.css}">
+    <!-- typo -->
+    <link rel="stylesheet" href="../static/css/typo.css" th:href="@{/css/typo.css}">
+    <!-- prism -->
+    <link rel="stylesheet" href="../static/lib/prism/prism.css" th:href="@{/lib/prism/prism.css}">
+    <!-- Customize CSS -->
+    <link rel="stylesheet" href="../static/css/me.css" th:href="@{/css/me.css}">
+    <!--title-->
+    <title th:replace="${title}">fragments</title>
+</head>
+
+<body>
+    <!-- Nav bar-->
+    <nav th:fragment="menu(n)" class="ui attached inverted segment m-padded-tb-mini m-opacity-mini m-shadow-small">
+        <div class="ui container">
+            <div class="ui inverted secondary stackable menu m-opacity-mini">
+                <h2 class="ui header item"><span class="m-poolside">Backstage</span></h2>
+                <a href="#" th:href="@{/admin/blogs}" class="m-item item m-mobile-hide" th:classappend="${n==1} ? 'active'"><span class="m-daffodil"><i class="fas fa-home"></i> Manage Blog</span></a>
+                <a href="#" th:href="@{/admin/types}" class="m-item item m-mobile-hide" th:classappend="${n==2} ? 'active'"><span class="m-daffodil"><i class="fas fa-bookmark"></i> Manage Type</span></a>
+                <a href="#" th:href="@{/admin/tags}" class="m-item item m-mobile-hide" th:classappend="${n==3} ? 'active'"><span class="m-daffodil"><i class="fas fa-tags"></i> Manage Tag</span></a>
+                <a href="#" th:href="@{/admin/history}" class="m-item item m-mobile-hide" th:classappend="${n==4} ? 'active'"><span class="m-daffodil"><i class="fas fa-history"></i> Manage History</span></a>
+                <div class="right menu">
+                    <div class="ui dropdown item">
+                        <div class="text">
+                            <img src="../../static/images/smalllogo.png" th:src="${session.user.avatar}==null? @{/images/smalllogo.png} : @{${session.user.avatar}}" alt="" class="ui avatar image">
+                            <span th:text="${session.user.nickname}">name</span>
+                        </div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <a href="#" th:href="@{/admin/logout}" class="item">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="ui menu toggle icon inverted m-top-right button m-mobile-display m-opacity-small">
+                <i class="fas fa-bars m-poolside"></i>
+            </a>
+        </div>
+    </nav>
+    <!-- Sub bar-->
+    <div th:fragment="subbar" class="ui attached inverted pointing menu m-opacity-small">
+        <div class="ui container">
+            <div class="right menu">
+                <a href="#" class="item">Upload</a>
+                <a href="#" class="active olive item">List</a>
+            </div>
+        </div>
+    </div>
+
+    <!--footer-->
+    <footer th:fragment="footer" class="ui inverted vertical segment m-padded-tb-mid m-opacity-mini">
+        <div class="ui center aligned container">
+            <h5 class="ui inverted header m-text-spaced m-opacity-mid"><span style="color: #6BB6A1"><i class="envelope icon"></i>contact</span></h5>
+            <small class="m-text-spaced m-opacity-big"><span style="color: #6BB6A1">Copyright &copy; NJUSE blog</span></small>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <th:block th:fragment="script">
+        <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js" crossorigin="anonymous"></script>
+        <!-- prism -->
+        <script src="../static/lib/prism/prism.js" th:src="@{/lib/prism/prism.js}"></script>
+        <!-- mark down-->
+        <script src="../../static/lib/editormd/editormd.min.js" th:src="@{/lib/editormd/editormd.min.js}"></script>
+        <!-- customize -->
+        <script>
+            $('.menu.toggle').click(function () {
+                $('.m-item').toggleClass('m-mobile-hide');
+            });
+
+            $('.ui.dropdown').dropdown({
+                on : 'hover'
+            });
+
+            //close notification
+            $('.message .close')
+                .on('click', function () {
+                    $(this)
+                        .closest('.message')
+                        .transition('fade');
+                });
+        </script>
+    </th:block>
+</body>
+</html>

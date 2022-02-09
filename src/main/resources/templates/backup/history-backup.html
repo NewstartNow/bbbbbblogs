@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+    <title>shell845 | categories</title>
+</head>
+
+<body>
+<!-- Nav bar-->
+<nav th:replace="_fragments :: menu(4)" ></nav>
+
+<!-- Content -->
+<div class="m-container-small m-padded-tb-mid">
+    <div class="ui container">
+        <!--header-->
+        <div class="ui top attached padded segment">
+            <div class="ui middle aligned two column grid">
+                <div class="column">
+                    <h3 class="ui header"><span style="color: #6BB6A1">History</span></h3>
+                </div>
+                <div class="right aligned column">
+                    <h2 class="ui header m-inline-block m-text-thin"><span style="color: #6BB6A1" th:text="${blogCount}"># </span></h2>
+                    <span class="m-poolside">posts</span>
+                </div>
+            </div>
+        </div>
+        <!---by date-->
+        <th:block th:each="item : ${archiveMap}">
+            <h2 class="ui center aligned header grey" th:text="${item.key}">2020</h2>
+            <div class="ui fluid vertical menu">
+                <a href="#" th:href="@{/blog/{id}(id=${blog.id})}" class="item" th:each="blog : ${item.value}">
+                <span>
+                    <i class="olive circle icon"></i><span th:text="${blog.title}">Post A</span>
+                </span>
+                    <div class="ui olive basic left pointing label" th:text="${#dates.format(blog.updateTime,'MM-dd')}">03 Jan</div>
+                </a>
+            </div>
+        </th:block>
+
+    </div>
+</div>
+
+
+<!-- Footer -->
+<footer th:replace="_fragments :: footer"></footer>
+
+<!-- JavaScript -->
+<th:block th:replace="_fragments :: script"></th:block>
+
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('#sponsorButton').popup({
+        popup: $('.sponsorPopup.popup'),
+        on: 'click',
+        position: 'bottom center'
+    });
+</script>
+</body>
+</html>

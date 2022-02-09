@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+    <title>shell845 | post</title>
+</head>
+
+<body>
+<!-- Nav bar-->
+<nav th:replace="_fragments :: menu(2)" ></nav>
+
+<!-- Content -->
+<div class="m-container-small m-padded-tb-mid">
+    <div class="ui container">
+        <!--header-->
+        <div class="ui top attached segment">
+            <!--content header-->
+                <h2 class="ui center aligned header" th:text="${blog.title}">Test Header</h2>
+                <div class="ui middle aligned two column grid">
+                    <div class="column">
+                        <div class="ui horizontal link list">
+                            <div class="item">
+                                <img src="https://picsum.photos/id/102/100/100" th:src="${blog.user.avatar}==null? @{/images/smalllogo.png} : @{${blog.user.avatar}}" alt="" class="ui avatar image">
+                            </div>
+                            <div class="item">
+                                <a class="item" th:text="${blog.user.nickname}">shell845</a>
+                            </div>
+                            <div class="item">
+                                <i class="calendar icon item"></i> <span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">04-09-2020</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="right aligned column">
+                        <div class="ui horizontal link list">
+                            <div class="item">
+                                <a class="item" th:text="${blog.flag}"> origin </a>
+                            </div>
+                            <div class="item">
+                                <i class="eye icon item"></i> <span th:text="${blog.views}"> 9 </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+        <!--pic-->
+        <!--div class="ui attached segment">
+            <img src="https://picsum.photos/id/102/600/400" th:src="${blog.headerPicture}==null? @{${blog.headerPicture}} : @{/images/smalllogo.png}" alt="" class="ui rounded image">
+        </div-->
+        <!--content-->
+        <div class="ui attached padded segment">
+            <div id="postContent" class="typo typo-selection m-padded-side-responsive m-padded-tb-mid" th:utext="${blog.content}">
+                <!--p><pre><code class="language-java">public static void main(String[] args)</code></pre></p-->
+            </div>
+            <!--tag-->
+            <div class="m-padded-side-responsive">
+                <div class="ui basic olive left pointing label" th:each="tag : ${blog.tags}" th:text="${tag.tagName}">tagA</div>
+            </div>
+            <!--sponsor-->
+            <div th:if="${blog.sponsor}">
+                <div class="ui center aligned basic segment">
+                    <button id="sponsorButton" class="ui olive basic circular button">Buy me a coffee <i class="fas fa-coffee"></i></button>
+                </div>
+                <div class="ui sponsorPopup flowing popup transition hidden">
+                    <div class="ui olive basic label">
+                        <div class="ui images" style="font-size: inherit !important;">
+                            <div class="image">
+                                <img src="../static/images/smalllogo.png" th:src="@{/images/smalllogo.png}" alt="" class="ui rounded bordered image" style="width: 120px">
+                                <div>WechatPay</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--post detail-->
+        <!--div class="ui attached positive message">
+            <div class="ui middle aligned grid">
+                <div class="eleven wide column">
+                    <li>Author: shell84 </li>
+                    <li>Post time: 2020-20-20</li>
+                    <li>Copyright</li>
+                </div>
+                <div class="five wide column">
+                    <img src="../static/images/smalllogo.png" alt="" class="ui right floated rounded bordered image" style="width: 100px">
+                </div>
+            </div>
+        </--div-->
+
+        <!--comment-->
+        <div class="ui bottom attached segment" th:if="${blog.comment}">
+            <!--list-->
+            <div id="comment-container" class="ui segment">
+                <div th:fragment="commentList">
+                    <div class="ui threaded comments" style="max-width: 100%;">
+                        <h3 class="ui dividing header">Comments</h3>
+                        <div class="comment" th:each="comment : ${comments}">
+                            <a class="avatar">
+                                <img src="../static/images/smalllogo.png" th:src="${comment.avatar}==null? @{/images/smalllogo.png}} : @{${comment.avatar}}">
+                            </a>
+                            <div class="content">
+                                <a class="author">
+                                    <span th:text="${comment.nickname}"> Matt</span>
+                                    <div class="ui mini basic olive left pointing label m-padded-mini" th:if="${comment.adminComment}">author</div>
+                                </a>
+                                <div class="metadata">
+                                    <span class="date" th:text="${#dates.format(comment.createTime, 'MM-dd-yyyy HH:mm')}">Today at 5:42PM</span>
+                                </div>
+                                <div class="text" th:text="${comment.content}">
+                                    How artistic!
+                                </div>
+                                <div class="actions">
+                                    <a class="reply" data-commentid="1" data-commentnickname="Matt" th:attr="data-commentid=${comment.id}, data-commentnickname=${comment.nickname}" onclick="reply(this)">Reply</a>
+                                </div>
+                            </div>
+                            <!--replies-->
+                            <div class="comments" th:if="${#arrays.length(comment.replyComments)} > 0">
+                                <div class="comment" th:each="reply : ${comment.replyComments}">
+                                    <a class="avatar">
+                                        <img src="" th:src="@{${reply.avatar}}" alt="">
+                                    </a>
+                                    <div class="content">
+                                        <a class="author" >
+                                            <span th:text="${reply.nickname}">name</span>
+                                            <div class="ui mini basic olive left pointing label m-padded-mini" th:if="${reply.adminComment}">author</div>
+                                            &nbsp;<span th:text="|@ ${reply.parentComment.nickname}|" class="m-poolside">@ name</span>
+                                        </a>
+                                        <div class="metadata">
+                                            <span class="date" th:text="${#dates.format(reply.createTime,'yyyy-MM-dd HH:mm')}">Today at 5:42PM</span>
+                                        </div>
+                                        <div class="text" th:text="${reply.content}">
+                                            How artistic!
+                                        </div>
+                                        <div class="actions">
+                                            <a class="reply" data-commentid="1" data-commentnickname="Matt" th:attr="data-commentid=${reply.id},data-commentnickname=${reply.nickname}" onclick="reply(this)"> Reply </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--form-->
+            <div class="ui form">
+                <input type="hidden" name="blog.id" th:value="${blog.id}">
+                <input type="hidden" name="parentComment.id" value="-1">
+                <div class="field">
+                    <textarea name="content" placeholder="Please input here..."></textarea>
+                </div>
+                <div class="fields">
+                    <div class="field m-margin-bottom-mini m-mobile-width">
+                        <div class="ui left icon input">
+                            <i class="user icon"></i>
+                            <input type="text" name="nickname" placeholder="name" th:value="${session.user}!=null ? ${session.user.nickname}">
+                        </div>
+                    </div>
+                    <div class="field m-margin-bottom-mini m-mobile-width">
+                        <div class="ui left icon input">
+                            <i class="mail icon"></i>
+                            <input type="text" name="email" placeholder="email" th:value="${session.user}!=null ? ${session.user.email}">
+                        </div>
+                    </div>
+                    <div class="field m-margin-bottom-mini m-mobile-width">
+                        <button id="commentpost-btn" type="button" class="ui olive button m-mobile-width"><i class="edit icon"></i> Post</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer th:replace="_fragments :: footer"></footer>
+
+<!-- JavaScript -->
+<th:block th:replace="_fragments :: script"></th:block>
+<script th:inline="javascript">
+    // validate comment form
+    $('.ui.form').form({
+        inline : true,
+        fields: {
+            content: {
+                identifier: 'content',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'Please input comment'
+                },{
+                    type: 'maxLength[255]',
+                    prompt: 'Comment exceeds 255 characters'
+                },
+                ]
+            },
+            nickname: {
+                identifier: 'nickname',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'Please input name'
+                },{
+                    type: 'regExp',
+                    value: '/^[0-9a-zA-Z\u4E00-\u9FA5]*$/g',
+                    prompt: 'Name contains illegal characters'
+                }]
+            },
+            email: {
+                identifier: 'email',
+                rules: [{
+                    type: 'empty',
+                    prompt: 'Please input email'
+                },{
+                    type: 'email',
+                    prompt: 'Invalid email address'
+                }]
+            }
+        }
+    });
+
+    // load comments when launch the page
+    $(function () {
+        $("#comment-container").load(/*[[@{/comments/{id}(id=${blog.id})}]]*/"comments/6");
+    });
+
+    // submit comment
+    $('#commentpost-btn').click(function () {
+        var boo = $('.ui.form').form('validate form');
+        if (boo) {
+            console.log('Form validation success');
+            postData();
+        } else {
+            console.log('Form validation fail');
+        }
+
+    });
+
+    function postData() {
+        $("#comment-container").load(/*[[@{/comments}]]*/"",{
+            "parentComment.id" : $("[name='parentComment.id']").val(),
+            "blog.id" : $("[name='blog.id']").val(),
+            "nickname": $("[name='nickname']").val(),
+            "email"   : $("[name='email']").val(),
+            "content" : $("[name='content']").val()
+        },function (responseTxt, statusTxt, xhr) {
+       // $(window).scrollTo($('#comment-container'),500);
+            clearContent();
+        });
+    }
+
+    function clearContent() {
+        $("[name='content']").val('');
+        $("[name='parentComment.id']").val(-1);
+        $("[name='content']").attr("placeholder", "Comment...");
+    }
+
+
+    function reply(obj) {
+        var commentId = $(obj).data('commentid');
+        var commentNickname = $(obj).data('commentnickname');
+        $("[name='content']").attr("placeholder", "@"+commentNickname).focus();
+        $("[name='parentComment.id']").val(commentId);
+        // $(window).scrollTo($('#comment-form'),500);
+    }
+</script>
+
+</body>
+</html>

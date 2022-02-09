@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+    <title>shell845 | post</title>
+</head>
+
+<body>
+<!-- Nav bar-->
+<nav th:replace="_fragments :: menu(2)" ></nav>
+
+<!-- Content -->
+<div class="m-container-small m-padded-tb-mid">
+    <div class="ui container">
+        <!--header-->
+        <div class="ui top attached segment">
+            <div class="ui middle aligned two column grid">
+                <div class="column">
+                    <h3 class="ui header"><span style="color: #6BB6A1">Search result</span></h3>
+                </div>
+                <div class="right aligned column">
+                    <h4 class="ui header m-text-thin"><span style="color: #6BB6A1" th:text="${page.totalElements}">#</span> results</h4>
+                </div>
+            </div>
+        </div>
+        <!--posts-->
+        <div class="ui top attached segment">
+            <!--content-->
+            <div class="ui padded vertical segment m-padded-tb-mid" th:each="blog: ${page.content}">
+                <div class="ui mobile reversed stackable grid">
+                    <div class="eleven wide column">
+                        <h3 class="ui header"><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.title}">Test1</a></h3>
+                        <p class="m-text" th:text="|${blog.description}...|">Testing here</p>
+                        <div class="ui stackable grid">
+                            <div class="eleven wide column">
+                                <div class="ui mini horizontal link list">
+                                    <div class="item">
+                                        <img src="https://picsum.photos/id/102/100/100" th:src="${blog.user.avatar}" alt="" class="ui avatar image">
+                                        <div class="content"><a href="#" class="header" th:text="${blog.user.nickname}">shell845</a></div>
+                                    </div>
+                                    <div class="item">
+                                        <i class="calendar icon"></i> <span th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">04-09-2020</span>
+                                    </div>
+                                    <div class="item">
+                                        <i class="eye icon"></i> <span th:text="${blog.views}">2834</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="right aligned five wide column">
+                                <a href="#" class="ui basic label m-text-thin m-padded-mini"><span style="color: #6BB6A1" th:text="${blog.type.name}">a tag</span></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="five wide column">
+                        <a href="#" th:href="@{/blog/{id}(id=${blog.id})}">
+                            <img src="https://picsum.photos/id/102/600/400" th:src="@{blog.headerPicture}" alt="" class="ui rounded image">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--content bottom-->
+        <div class="ui bottom attached segment" th:if="${page.totalPages} > 1">
+            <div class="ui middle aligned two column grid">
+                <div class="column">
+                    <a href="#" th:href="@{/(page=${page.number}-1)}" th:unless="${page.first}" class="ui mini teal basic button">Prev</a>
+                </div>
+                <div class="right aligned column">
+                    <a href="#" th:href="@{/(page=${page.number}+1)}"th:unless="${page.last}" class="ui mini teal basic button">Next</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer th:replace="_fragments :: footer"></footer>
+
+<!-- JavaScript -->
+<th:block th:replace="_fragments :: script"></th:block>
+
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('#sponsorButton').popup({
+        popup: $('.sponsorPopup.popup'),
+        on: 'click',
+        position: 'bottom center'
+    });
+</script>
+
+</body>
+</html>

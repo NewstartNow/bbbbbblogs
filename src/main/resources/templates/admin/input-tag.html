@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="admin/_fragments :: head(~{::title})">
+    <title>NJUSE | new tag</title>
+</head>
+
+<body class="m-sticky-site">
+<!-- Nav bar-->
+<nav th:replace="admin/_fragments :: menu(0)"></nav>
+<!-- Sub bar-->
+<div th:fragment="subbar" class="ui attached inverted pointing menu m-opacity-small">
+    <div class="ui container">
+        <div class="right menu">
+            <a href="#" th:href="@{/admin/tags/input}" class="active olive item">Add</a>
+            <a href="#" th:href="@{/admin/tags}" class="olive item">List</a>
+        </div>
+    </div>
+</div>
+
+<!-- Content -->
+<div class="m-container-small m-padded-tb-mid">
+    <div class="ui container">
+        <form action="#" method="post" th:object="${tag}" th:action="*{id}==null ? @{/admin/tags} : @{/admin/tags/{id}(id=*{id})}" class="ui form">
+            <input type="hidden" name="id" th:value="*{id}">
+            <div class="field">
+            <div class="ui left labeled input">
+                <label class="ui olive basic label">Tag</label>
+                <input required="required" type="text" name="tagName" placeholder="new tag name" th:value="*{tagName}">
+            </div>
+        </div>
+
+        <div class="ui error message"></div>
+        <!--/*/
+        <div class="ui negative message" th:if="${#fields.hasErrors('tagName')}"  >
+          <i class="close icon"></i>
+          <div class="header">Validation failed</div>
+          <p th:errors="*{tagName}">Input content not valid</p>
+        </div>
+         /*/-->
+        <!--bottom-->
+        <div class="ui right aligned container">
+            <button type="button" class="ui basic button" onclick="window.history.go(-1)"> Back </button>
+            <button class="ui olive basic button"> Save </button>
+        </div>
+        </form>
+    </div>
+</div>
+
+<!-- Footer -->
+<main class="m-sticky-site-content"></main>
+<footer th:replace="admin/_fragments :: footer"></footer>
+
+<!-- JavaScript -->
+<th:block th:replace="_fragments :: script"></th:block>
+<script>
+    //close notification
+    $('.message .close')
+        .on('click', function () {
+            $(this)
+                .closest('.message')
+                .transition('fade');
+        });
+</script>
+</body>
+</html>

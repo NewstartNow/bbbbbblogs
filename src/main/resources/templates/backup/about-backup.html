@@ -1,0 +1,104 @@
+<!doctype html>
+<body lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"-->
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css" integrity="sha384-Bfad6CLCknfcloXFOyFnlgtENryhrpZCe29RTifKEixXQZ38WheV+i/6YWSzkz3V" crossorigin="anonymous">
+    <!-- Semantic CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css" >
+    <!-- Customize CSS -->
+    <link rel="stylesheet" href="../static/css/me.css" >
+
+    <title>shell845 | about</title>
+</head>
+
+<!-- Nav bar-->
+<nav class="ui attached inverted segment m-padded-tb-mini m-opacity-mini m-shadow-small">
+    <div class="ui container">
+        <div class="ui inverted secondary stackable menu m-opacity-mini">
+            <h2 class="ui header item"><span class="m-poolside">Shell845</span></h2>
+            <a href="#" class="m-item item m-mobile-hide"><span class="m-daffodil"><i class="fas fa-home"></i> Home</span></a>
+            <a href="#" class="active m-item item m-mobile-hide"><span class="m-daffodil"><i class="fas fa-tag"></i> Tags</span></a>
+            <a href="#" class="m-item item m-mobile-hide"><span class="m-daffodil"><i class="fas fa-history"></i> History</span></a>
+            <div class="m-item right item m-mobile-hide">
+                <div class="ui icon inverted input">
+                    <input type="text" placeholder="Search...">
+                    <i class="search link icon"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#" class="ui menu toggle icon inverted m-top-right button m-mobile-display m-opacity-small">
+        <i class="fas fa-bars m-poolside"></i>
+    </a>
+</nav>
+
+<!-- Content -->
+<div class="m-container-small m-padded-tb-mid">
+    <div class="ui container">
+        <div class="ui stackable grid">
+            <!--Left content-->
+            <div class="eleven wide column">
+                <img src="../static/images/smalllogo.png" alt="" class="ui rounded image">
+            </div>
+            <!--Right content-->
+            <div class="five wide column">
+                <div class="ui top attached segment">
+                    <div class="ui header olive">About me</div>
+                </div>
+                <div class="ui attached segment">blablabla</div>
+                <div class="ui attached segment">
+                    <div class="ui orange basic left pointing label m-margin-tb-small">Coding</div>
+                    <div class="ui orange basic left pointing label m-margin-tb-small">Writing</div>
+                    <div class="ui orange basic left pointing label m-margin-tb-small">Thinking</div>
+                </div>
+                <div class="ui attached segment">
+                    <div class="ui olive basic left pointing label m-margin-tb-small">Java</div>
+                    <div class="ui olive basic left pointing label m-margin-tb-small">Java</div>
+                    <div class="ui olive basic left pointing label m-margin-tb-small">Java</div>
+                </div>
+                <div class="ui bottom attached segment">
+                    <a href="#" class="ui ig circular icon button" data-content="shell845" data-position="bottom center"><i class="github icon"></i></a>
+                    <a href="#" class="ui ig circular icon button" data-content="yc" data-position="bottom center"><i class="linkedin icon"></i></a>
+                    <a href="#" class="ui ig circular icon button" data-content="yycc1024" data-position="bottom center"><i class="instagram icon"></i></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="ui inverted vertical segment m-padded-tb-mid m-opacity-mini">
+    <div class="ui center aligned container">
+        <h5 class="ui inverted header m-text-spaced m-opacity-mid"><span style="color: #6BB6A1"><i class="envelope icon"></i>ych1203@gmail.com</span></h5>
+        <small class="m-text-spaced m-opacity-big"><span style="color: #6BB6A1">Copyright &copy; shell845</span></small>
+    </div>
+</footer>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js" crossorigin="anonymous"></script>
+
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('#sponsorButton').popup({
+        popup: $('.sponsorPopup.popup'),
+        on: 'click',
+        position: 'bottom center'
+    });
+
+    $('.ig').popup();
+
+</script>
+</body>
+</html>

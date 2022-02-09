@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+    <title>NJUSE | home</title>
+</head>
+
+<body id="home">
+<!--part 1-->
+<div class="ui inverted masthead centered segment">
+    <div class="ui page grid">
+        <div class="column">
+            <!-- Nav bar-->
+            <nav th:replace="_fragments :: menu(1)" ></nav>
+
+            <!--homepage banner-->
+            <!--desktop-->
+            <div class="ui hidden transition information">
+                <h1 class="ui inverted centered aligned header m-mobile-hide"><span th:text="#{index.slogan}">slogan</span></h1>
+                <p class="ui centered lead m-mobile-hide" th:text="#{index.words}">words</p>
+                <a href="#" class="large basic inverted animated fade ui button m-mobile-hide" th:href="@{/archives}">
+                    <div class="visible content" th:text="#{index.welcome}">welcome</div>
+                    <div class="hidden content" th:text="#{index.readmore}">read more</div>
+                </a>
+                <div class="ui centered image m-mobile-hide">
+                    <img class="rounded" src="../static/images/homepageheader.jpg" th:src="@{/images/homepageheader.jpg}"/>
+                </div>
+            </div>
+            <!--mobile-->
+            <h1 class="ui inverted center aligned m-mobile-display header">
+                <sapn th:text="#{index.welcome}">welcome</sapn>
+            </h1>
+            <p class="ui centered lead m-mobile-display" th:text="#{index.words}">words</p>
+        </div>
+    </div>
+</div>
+
+<!--part 2-->
+<div class="ui vertical feature segment">
+    <div class="ui centered page grid">
+        <!--latest post header-->
+        <div class="row">
+            <div class="eight wide centered column">
+                <h1 class="ui grey center aligned header m-margin-tb-mid"><span style="color:grey">Latest Posts</span></h1>
+                <div class="ui horizontal divider"><i class="far fa-paper-plane"></i></div>
+                <p class="ui centered lead" style="color:grey">Checkout the latest posts...</p>
+            </div>
+        </div>
+        <!--latest post list-->
+        <div class="fourteen wide column">
+            <div class="ui three column center aligned stackable divided grid">
+                <!--column 1-->
+                <div class="column column-feature" th:each="blog : ${recommendBlogs}">
+                    <h2 class="ui center aligned teal header" th:text="${blog.title}">
+                        Header
+                    </h2>
+                    <p class="m-text" th:text="|${blog.description}...|">Blog description</p>
+                    <p><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" class="ui primary inverted button">Read</a></p>
+                </div>
+                <!--column 2-->
+                <!--column 3-->
+            </div>
+        </div>
+    </div>
+    <div class="ui centered page grid">
+        <a class="ui teal button m-margin-tb-mid" href="#" th:href="@{/categories/-1}">Read More Posts</a>
+    </div>
+</div>
+
+<!--part 3 purple background-->
+<div class="ui vertical purplebackground segment">
+    <div class="ui very relaxed stackable centered page grid">
+        <!--explore header-->
+        <div class="row">
+            <div class="eight wide centered column">
+                <h1 class="center aligned ui inverted header"> Explore More </h1>
+                <div class="ui horizontal divider"><i class="far fa-paper-plane"></i></div>
+            </div>
+        </div>
+        <div class="fourteen wide centered column">
+            <div class="ui two column aligned stackable divided grid m-padded-side">
+                <!--explore categories-->
+                <div class="column">
+                    <div class="ui segment">
+                        <div class="ui two column grid">
+                            <div class="column">
+                                <i class="fas fa-bookmark"></i> <span style="color:teal">By categories</span>
+                            </div>
+                            <div class="right aligned column">
+                                <a href="#" th:href="@{/categories/-1}">More <i class="fas fa-angle-double-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="ui fluid vertical menu">
+                            <a href="#" th:href="@{/categories/{id}(id=${type.id})}" class="item" th:each="type : ${types}">
+                                <span style="color:teal" th:text="${type.name}">Study</span>
+                                <div class="ui teal left pointing label m-text-mid" th:text="*{type.blogs}!=null ? ${#arrays.length(type.blogs)}">13</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--explore tags-->
+                <div class="column">
+                    <div class="ui segment">
+                        <div class="ui two column grid">
+                            <div class="column">
+                                <i class="fas fa-tags"></i> <span style="color:teal">By tags</span>
+                            </div>
+                            <div class="right aligned column">
+                                <a href="#" th:href="@{/tags/-1}">More <i class="fas fa-angle-double-right"></i></a>
+                            </div>
+                        </div>
+                        <div class="ui fluid vertical menu">
+                            <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" class="ui teal left pointing label m-text-thin m-margin-tb-mid" th:each="tag : ${tags}">
+                                <span th:text="${tag.tagName}">tagName</span>
+                                <div class="detail" th:text="*{tag.blogs}!=null ? ${#arrays.length(tag.blogs)}">9</div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer th:replace="_fragments :: footer"></footer>
+
+<!-- JavaScript -->
+<th:block th:replace="_fragments :: script"></th:block>
+<script src="../static/js/homepage.js" th:src="@{/js/homepage.js}"></script>
+
+</body>
+</html>

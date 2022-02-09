@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="_fragments :: head(~{::title})">
+    <title>NJUSE | tags</title>
+</head>
+
+<body id="home">
+<div class="ui inverted masthead centered segment">
+    <div class="ui page grid">
+        <div class="column">
+            <!-- Nav bar-->
+            <nav th:replace="_fragments :: menu(3)" ></nav>
+
+            <!-- Tags -->
+            <div class="m-padded-tb-small"></div>
+            <!--posts-->
+            <div class="ui top attached segment">
+                <h2 class="ui center aligned grey header m-padded-tb-small">
+                    <span th:text="${#arrays.length(tags)}">#</span>
+                    <span> Tags</span>
+                </h2>
+                <!--tag list-->
+                <div class="row">
+                    <a href="#" th:href="@{/tags/{id}(id=${tag.id})}" class="ui basic left pointing large label m-margin-tb-mini" th:classappend="${tag.id==activeTagId} ? 'teal'" th:each="tag : ${tags}">
+                        <span th:text="${tag.tagName}">tagName</span>
+                        <div class="detail" th:text="${#arrays.length(tag.blogs)}">9</div>
+                    </a>
+                </div>
+
+                <!--divider-->
+                <div class="ui horizontal divider"><i class="far fa-paper-plane"></i></div>
+                <!--content-->
+                <div class="ui padded vertical segment m-padded-tb-mini" th:each="blog: ${page.content}">
+                    <div class="ui grid">
+                        <div class="row m-padded-side">
+                            <h3 class="ui header"><a href="#" th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.title}">Test1</a></h3>
+                        </div>
+                        <div class="row m-padded-side">
+                            <p class="m-text" th:text="|${blog.description}...|">Testing here</p>
+                        </div>
+                        <div class="row m-padded-side">
+                            <div class="ui mini horizontal link list">
+                                <div class="item">
+                                    <!--img src="https://picsum.photos/id/102/100/100" th:src="${blog.user.avatar}" alt="" class="ui avatar image"-->
+                                    <div class="content"><a href="#" class="header" th:text="${blog.user.nickname}">NJUSE</a></div>
+                                </div>
+                                <div class="item">
+                                    <i class="calendar icon"></i> <span th:text="${#dates.format(blog.updateTime,'MM-dd-yyyy')}">04-09-2020</span>
+                                </div>
+                                <!--div class="item">
+                                    <i class="eye icon"></i> <span th:text="${blog.views}">2834</span>
+                                </div-->
+                                <div class="item">
+                                    <a href="#" th:href="@{/categories/{id}(id=${blog.type.id})}" class="ui olive basic left pointing mini label m-text-thin m-padded-mini"><span th:text="${blog.type.name}">a type</span></a>
+                                </div>
+                            </div>
+                        </div>
+                        <!--div class="five wide column">
+                            <a href="#" th:href="@{/blog/{id}(id=${blog.id})}">
+                                <img src="https://picsum.photos/id/102/600/400" th:src="@{blog.headerPicture}" alt="" class="ui rounded image">
+                            </a>
+                        </div-->
+                        <div class="ui divider"></div>
+                    </div>
+                </div>
+
+            </div>
+            <!--content bottom-->
+            <div class="ui bottom attached segment" th:if="${page.totalPages} > 1">
+                <div class="ui middle aligned two column grid">
+                    <div class="column">
+                        <a href="#" th:href="@{/(page=${page.number}-1)}" th:unless="${page.first}" class="ui mini teal basic button">Prev</a>
+                    </div>
+                    <div class="right aligned column">
+                        <a href="#" th:href="@{/(page=${page.number}+1)}" th:unless="${page.last}" class="ui mini teal basic button">Next</a>
+                    </div>
+                </div>
+            </div>
+            <!--divider-->
+            <div class="m-padded-tb-small"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer th:replace="_fragments :: footer"></footer>
+
+<!-- JavaScript -->
+<th:block th:replace="_fragments :: script"></th:block>
+
+<script>
+    $('.menu.toggle').click(function () {
+        $('.m-item').toggleClass('m-mobile-hide');
+    });
+
+    $('#sponsorButton').popup({
+        popup: $('.sponsorPopup.popup'),
+        on: 'click',
+        position: 'bottom center'
+    });
+</script>
+</body>
+</html>
